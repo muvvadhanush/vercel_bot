@@ -32,7 +32,7 @@
     },
     {
       "source": "/((?!api/|admin|login|health).*)",
-      "destination": "/frontend/frontend/$1"
+      "destination": "/index.html"
     }
   ]
 }
