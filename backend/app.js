@@ -152,22 +152,23 @@ const errorHandler = require("./middleware/errorHandler");
 app.use(errorHandler);
 
 // ===== Database & Server Startup =====
-const PORT = settings.port;
-
-sequelize.authenticate()
-  .then(() => {
-    console.log("✅ Database connected successfully.");
-    console.log("🛡️ Schema Lock Active: sequelize.sync() DISABLED.");
-
-    if (require.main === module) {
+// On Vercel: Sequelize connects lazily on first query. No top-level auth needed.
+// Locally:  We authenticate and start the server.
+if (require.main === module) {
+  const PORT = settings.port;
+  sequelize.authenticate()
+    .then(() => {
+      console.log("✅ Database connected successfully.");
+      console.log("🛡️ Schema Lock Active: sequelize.sync() DISABLED.");
       app.listen(PORT, () => {
         console.log(`🚀 Server running on port ${PORT} [${settings.env}]`);
         console.log(`📡 Health: http://localhost:${PORT}/health`);
       });
-    }
-  })
-  .catch((err) => {
-    console.error("❌ Database connection failed:", err);
-  });
+    })
+    .catch((err) => {
+      console.error("❌ Database connection failed:", err);
+    });
+}
 
+// ===== Export for Vercel Serverless =====
 module.exports = app;

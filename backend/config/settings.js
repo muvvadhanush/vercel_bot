@@ -6,15 +6,10 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 const validEnvironments = ['development', 'staging', 'production'];
 const env = process.env.NODE_ENV;
 
-// 1. Fail Fast on Invalid Environment
+// 1. Validate (but NEVER process.exit — kills Vercel functions)
 if (!validEnvironments.includes(env)) {
-    console.error(`
-    🛑 CRITICAL ERROR: Invalid NODE_ENV "${env}"
-    Allowed values: ${validEnvironments.join(', ')}
-    
-    Fix: set NODE_ENV=development|staging|production
-  `);
-    process.exit(1);
+    console.error(`⚠️ WARNING: Invalid NODE_ENV "${env}". Defaulting to "production".`);
+    process.env.NODE_ENV = 'production';
 }
 
 console.log(`🚦 Environment: ${env.toUpperCase()}`);

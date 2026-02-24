@@ -2,66 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/app.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "backend/public/**",
-          "backend/views/**"
-        ],
-        "excludeFiles": [
-          "backend/tests/**",
-          "backend/docs/**",
-          "backend/migrations/**",
-          "backend/scripts/**"
-        ]
-      }
+      "src": "api/index.js",
+      "use": "@vercel/node"
     }
   ],
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/backend/app.js"
-    },
-    {
-      "source": "/admin",
-      "destination": "/backend/app.js"
-    },
-    {
-      "source": "/login",
-      "destination": "/backend/app.js"
-    },
-    {
-      "source": "/health",
-      "destination": "/backend/app.js"
-    },
-    {
-      "source": "/",
-      "destination": "/backend/app.js"
-    },
-    {
-      "source": "/favicon.ico",
-      "destination": "/backend/public/favicon.ico"
-    },
-    {
-      "source": "/admin.css",
-      "destination": "/backend/public/admin.css"
-    },
-    {
-      "source": "/admin.js",
-      "destination": "/backend/public/admin.js"
-    },
-    {
-      "source": "/login.js",
-      "destination": "/backend/public/login.js"
-    },
-    {
-      "source": "/widget.js",
-      "destination": "/backend/public/widget.js"
-    },
-    {
-      "source": "/branding/:path*",
-      "destination": "/backend/public/branding/:path*"
+      "source": "/(.*)",
+      "destination": "/api/index.js"
     }
   ]
 }

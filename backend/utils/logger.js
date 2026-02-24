@@ -10,11 +10,11 @@ const devFormat = winston.format.printf(({ level, message, timestamp, ...metadat
     return msg;
 });
 
-const isVercel = process.env.VERCEL === '1';
+const isVercel = process.env.VERCEL === '1' || !!process.env.VERCEL;
 
 const transports = [];
 
-// Consolidate all logs into combined.log (Local only)
+// File transports: Local only (Vercel filesystem is read-only)
 if (!isVercel) {
     transports.push(
         new winston.transports.File({
@@ -31,18 +31,16 @@ if (!isVercel) {
     );
 }
 
-// Always add console in Vercel, or dev environments
-if (isVercel || process.env.NODE_ENV !== 'production') {
-    transports.push(
-        new winston.transports.Console({
-            format: winston.format.combine(
-                winston.format.colorize(),
-                winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-                devFormat
-            )
-        })
-    );
-}
+// Console transport: ALWAYS added (prevents zero-transport crash)
+transports.push(
+    new winston.transports.Console({
+        format: winston.format.combine(
+            winston.format.colorize(),
+            winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+            devFormat
+        )
+    })
+);
 
 const logger = winston.createLogger({
     level: process.env.LOG_LEVEL || 'info',
