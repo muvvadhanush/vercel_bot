@@ -29,6 +29,25 @@ require("./models"); // Initialize Associations
 // ===== Initialize App =====
 const app = express();
 
+// ===== Lazy DB Connect (Serverless Safe) =====
+let dbConnected = false;
+app.use(async (req, res, next) => {
+  try {
+    if (!dbConnected) {
+      await sequelize.authenticate();
+      dbConnected = true;
+      console.log("✅ DB Connected (Lazy)");
+    }
+    next();
+  } catch (err) {
+    console.error("❌ DB Connection Failed:", err.message);
+    res.status(503).json({
+      error: "SERVICE_UNAVAILABLE",
+      message: "Database connection failed. Please try again.",
+    });
+  }
+});
+
 // ===== Request ID + Logging =====
 const requestLogger = require("./middleware/requestLogger");
 app.use(requestLogger);
