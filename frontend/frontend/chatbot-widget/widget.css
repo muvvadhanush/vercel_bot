@@ -1,0 +1,130 @@
+/* ===============================
+   CHATBOT ROOT (ISOLATION)
+================================ */
+#chatbot-widget-root {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2147483647;
+    font-family: Inter, system-ui, sans-serif;
+    pointer-events: auto;
+}
+
+/* ===============================
+   FLOATING TOGGLE BUTTON
+================================ */
+#cb-toggle {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cb-toggle img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+
+/* ===============================
+   CHAT WINDOW (BOX)
+================================ */
+#cb-box {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    width: 320px;
+    max-height: 420px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+}
+
+/* ===============================
+   HEADER
+================================ */
+.cb-header {
+    padding: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff;
+    background: rgba(15, 23, 42, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ===============================
+   MESSAGES
+================================ */
+.cb-messages {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cb-bot {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 8px 10px;
+    border-radius: 10px;
+    color: #fff;
+    max-width: 85%;
+}
+
+.cb-user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    padding: 8px 10px;
+    border-radius: 10px;
+    color: #fff;
+    max-width: 85%;
+}
+
+/* ===============================
+   INPUT AREA
+================================ */
+.cb-input {
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cb-input input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 6px 8px;
+    font-size: 13px;
+    color: #fff;
+}
+
+.cb-input input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.cb-input button {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: #fff;
+    cursor: pointer;
+}
