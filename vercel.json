@@ -10,13 +10,6 @@
           "views/**"
         ]
       }
-    },
-    {
-      "src": "frontend/frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
     }
   ],
   "rewrites": [
@@ -41,8 +34,8 @@
       "destination": "/backend/app.js"
     },
     {
-      "source": "/((?!api/|admin|login|health).*)",
-      "destination": "/index.html"
+      "source": "/(admin\\.(css|js)|login\\.js|favicon\\.ico|widget\\.js)",
+      "destination": "/backend/public/$1"
     }
   ]
 }
