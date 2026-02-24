@@ -690,7 +690,7 @@ button.primary:active {
     width: 450px;
     height: 100vh;
     background: var(--bg-body);
-    z-index: 200;
+    z-index: 2000;
     padding: 40px;
     overflow-y: auto;
     transform: translateX(100%);
