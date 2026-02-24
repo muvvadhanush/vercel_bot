@@ -31,8 +31,16 @@
       "destination": "/backend/app.js"
     },
     {
-      "source": "/((?!api/|admin|login|health).*)",
-      "destination": "/index.html"
+      "source": "/",
+      "destination": "/backend/app.js"
+    },
+    {
+      "source": "/(admin\\.(css|js)|login\\.js|favicon\\.ico|widget\\.js)",
+      "destination": "/backend/public/$1"
+    },
+    {
+      "source": "/branding/(.*)",
+      "destination": "/backend/public/branding/$1"
     }
   ]
 }
