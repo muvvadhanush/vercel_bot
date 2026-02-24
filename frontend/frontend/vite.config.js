@@ -7,18 +7,7 @@ export default defineConfig({
     "process.env": {}
   },
   build: {
-    minify: false, // 🔴 VERY IMPORTANT
-    lib: {
-      entry: "src/widget/widget.jsx",
-      name: "ChatbotWidget",
-      formats: ["iife"],
-      fileName: () => "chatbot.iife.js"
-    },
-    rollupOptions: {
-      output: {
-        inlineDynamicImports: true
-      }
-    }
+    minify: false // 🔴 VERY IMPORTANT
   },
   server: {
     proxy: {

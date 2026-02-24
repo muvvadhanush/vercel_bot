@@ -3,7 +3,13 @@
   "builds": [
     {
       "src": "backend/app.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "public/**",
+          "views/**"
+        ]
+      }
     },
     {
       "src": "frontend/frontend/package.json",
@@ -35,12 +41,8 @@
       "destination": "/backend/app.js"
     },
     {
-      "source": "/(admin\\.(css|js)|login\\.js|favicon\\.ico|widget\\.js)",
-      "destination": "/backend/public/$1"
-    },
-    {
-      "source": "/branding/(.*)",
-      "destination": "/backend/public/branding/$1"
+      "source": "/((?!api/|admin|login|health).*)",
+      "destination": "/index.html"
     }
   ]
 }
