@@ -29,7 +29,10 @@ exports.recordUsage = async (data) => {
         const filename = `token_usage_${providerName}.jsonl`;
         const logFilePath = path.join(__dirname, '../data', filename);
 
-        await fs.promises.appendFile(logFilePath, line, 'utf8');
+        // Only write to disk if NOT on Vercel
+        if (process.env.VERCEL !== '1') {
+            await fs.promises.appendFile(logFilePath, line, 'utf8');
+        }
 
         // Also log to standard logger for redundancy
         logger.info('Token Usage Recorded', {

@@ -10,6 +10,40 @@ const devFormat = winston.format.printf(({ level, message, timestamp, ...metadat
     return msg;
 });
 
+const isVercel = process.env.VERCEL === '1';
+
+const transports = [];
+
+// Consolidate all logs into combined.log (Local only)
+if (!isVercel) {
+    transports.push(
+        new winston.transports.File({
+            filename: path.join(__dirname, '../logs/combined.log'),
+            maxsize: 5242880, // 5MB
+            maxFiles: 5
+        }),
+        new winston.transports.File({
+            filename: path.join(__dirname, '../logs/error.log'),
+            level: 'error',
+            maxsize: 5242880,
+            maxFiles: 5
+        })
+    );
+}
+
+// Always add console in Vercel, or dev environments
+if (isVercel || process.env.NODE_ENV !== 'production') {
+    transports.push(
+        new winston.transports.Console({
+            format: winston.format.combine(
+                winston.format.colorize(),
+                winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+                devFormat
+            )
+        })
+    );
+}
+
 const logger = winston.createLogger({
     level: process.env.LOG_LEVEL || 'info',
     format: winston.format.combine(
@@ -17,33 +51,8 @@ const logger = winston.createLogger({
         winston.format.metadata({ fillExcept: ['message', 'level', 'timestamp'] }),
         winston.format.json()
     ),
-    transports: [
-        // Consolidate all logs into combined.log
-        new winston.transports.File({
-            filename: path.join(__dirname, '../logs/combined.log'),
-            maxsize: 5242880, // 5MB
-            maxFiles: 5
-        }),
-        // Errors only in error.log
-        new winston.transports.File({
-            filename: path.join(__dirname, '../logs/error.log'),
-            level: 'error',
-            maxsize: 5242880,
-            maxFiles: 5
-        })
-    ]
+    transports
 });
-
-// Add console transport in development
-if (process.env.NODE_ENV !== 'production') {
-    logger.add(new winston.transports.Console({
-        format: winston.format.combine(
-            winston.format.colorize(),
-            winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-            devFormat
-        )
-    }));
-}
 
 /**
  * Specialized loggers for Neural Bot metrics
