@@ -1,10 +1,17 @@
 {
   "version": 2,
-  "functions": {
-    "backend/app.js": {
-      "includeFiles": "backend/{public,views}/**"
+  "builds": [
+    {
+      "src": "backend/app.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "backend/public/**",
+          "backend/views/**"
+        ]
+      }
     }
-  },
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
