@@ -5,12 +5,12 @@ const Connection = require('../models/Connection');
 const ConnectionKnowledge = require('../models/ConnectionKnowledge');
 const aiService = require('../services/aiService');
 const promptService = require('../services/promptService');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 
 async function runE2ETest() {
     console.log("\n🚀 Starting Full End-to-End Vector Search Test...");
 
-    const connectionId = uuidv4(); // Full UUID to avoid any collision
+    const connectionId = crypto.randomUUID(); // Full UUID to avoid any collision
 
     try {
         // 1. Setup Connection

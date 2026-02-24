@@ -4,9 +4,9 @@ const { crawlWebsite } = require('./crawlerService');
 const { isValidUrl, normalizeUrl } = require('./urlFilterService');
 const ConnectionCrawlSession = require('../../models/ConnectionCrawlSession');
 const ConnectionDiscovery = require('../../models/ConnectionDiscovery');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 
-async function runDiscovery(connection, requestId = uuidv4()) {
+async function runDiscovery(connection, requestId = crypto.randomUUID()) {
     const baseUrl = connection.websiteUrl;
     let baseDomain;
     try {

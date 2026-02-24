@@ -6,7 +6,7 @@ const sequelize = require('../config/db');
 const Connection = require('../models/Connection');
 const ConnectionKnowledge = require('../models/ConnectionKnowledge');
 const aiService = require('../services/aiService');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 
 // Prevent logger noise during tests if possible, but we want to see errors.
 // logger writes to file so console should be cleanish.
@@ -32,9 +32,9 @@ async function runTest() {
     log('\n🔒 Starting Multi-Tenant Isolation Test...\n');
 
     // Unique IDs for this test run
-    const connAId = 'iso-test-A-' + uuidv4().substring(0, 8);
-    const connBId = 'iso-test-B-' + uuidv4().substring(0, 8);
-    const secretKeyword = "XYZZY_" + uuidv4().substring(0, 8);
+    const connAId = 'iso-test-A-' + crypto.randomUUID().substring(0, 8);
+    const connBId = 'iso-test-B-' + crypto.randomUUID().substring(0, 8);
+    const secretKeyword = "XYZZY_" + crypto.randomUUID().substring(0, 8);
     // Using a random unique string to ensure no other knowledge matches it by accident.
 
     log(`   🔸 Connection A: ${connAId}`);
