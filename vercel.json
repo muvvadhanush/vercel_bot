@@ -6,8 +6,8 @@
       "use": "@vercel/node",
       "config": {
         "includeFiles": [
-          "public/**",
-          "views/**"
+          "backend/public/**",
+          "backend/views/**"
         ]
       }
     }
@@ -34,8 +34,28 @@
       "destination": "/backend/app.js"
     },
     {
-      "source": "/(admin\\.(css|js)|login\\.js|favicon\\.ico|widget\\.js)",
-      "destination": "/backend/public/$1"
+      "source": "/favicon.ico",
+      "destination": "/backend/public/favicon.ico"
+    },
+    {
+      "source": "/admin.css",
+      "destination": "/backend/public/admin.css"
+    },
+    {
+      "source": "/admin.js",
+      "destination": "/backend/public/admin.js"
+    },
+    {
+      "source": "/login.js",
+      "destination": "/backend/public/login.js"
+    },
+    {
+      "source": "/widget.js",
+      "destination": "/backend/public/widget.js"
+    },
+    {
+      "source": "/branding/:path*",
+      "destination": "/backend/public/branding/:path*"
     }
   ]
 }
