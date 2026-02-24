@@ -39,7 +39,7 @@ const client = new OpenAI({
 
 // Dedicated client for embeddings (Groq doesn't support them yet)
 const embeddingClient = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY, // Always use OpenAI for embeddings
+    apiKey: process.env.OPENAI_API_KEY || 'dummy_key', // Always use OpenAI for embeddings
     baseURL: 'https://api.openai.com/v1'
 });
 
