@@ -114,19 +114,17 @@ async function loadConnections() {
 
             const health = conn.healthScore || 100;
             const isLaunched = conn.launchStatus === 'LAUNCHED';
+            const initial = conn.assistantName ? conn.assistantName[0].toUpperCase() : 'N';
 
-            // Random gradient for visual for now
-            const gradients = [
-                'linear-gradient(135deg, #1e3a8a, #3b82f6)',
-                'linear-gradient(135deg, #312e81, #10b981)',
-                'linear-gradient(135deg, #4c1d95, #8b5cf6)',
-                'linear-gradient(135deg, #1e293b, #64748b)'
-            ];
-            const randomBg = gradients[Math.floor(Math.random() * gradients.length)];
+            // Use faviconPath if exists, otherwise fallback to placeholder
+            const avatarHtml = conn.faviconPath
+                ? `<img src="${conn.faviconPath}" alt="Bot" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`
+                : '';
 
             card.innerHTML = `
-                <div class="conn-card-visual" style="background: ${randomBg}">
-                    <span class="badge-portfolio">PORTFOLIO</span>
+                <div class="conn-avatar">
+                    ${avatarHtml}
+                    <div class="conn-avatar-fallback" style="display: ${conn.faviconPath ? 'none' : 'flex'}">${initial}</div>
                 </div>
                 <div class="conn-card-info">
                     <div class="conn-card-header">
