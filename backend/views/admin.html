@@ -20,8 +20,14 @@
         <!-- Zone 1: Brand & Primary Nav -->
         <div class="nav-zone-left">
             <div class="brand">
-                <span class="material-symbols-outlined" style="color: var(--primary);">neurology</span>
-                <span class="brand-name">Neural Bot</span>
+                <div class="brand-icon-box">
+                    <span class="material-symbols-outlined">neurology</span>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-line-1">Neural</span>
+                    <span class="brand-line-2">AI</span>
+                    <span class="brand-line-3">ECOSYSTEM</span>
+                </div>
             </div>
             <div class="nav-menu">
                 <a href="#" id="navDashboard" class="nav-item active">
@@ -32,6 +38,14 @@
                     <span class="material-symbols-outlined">hub</span>
                     <span class="nav-label">Connections</span>
                 </a>
+                <a href="#" id="navAnalytics" class="nav-item">
+                    <span class="material-symbols-outlined">analytics</span>
+                    <span class="nav-label">Analytics</span>
+                </a>
+                <a href="#" id="navSettings" class="nav-item">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="nav-label">Settings</span>
+                </a>
             </div>
         </div>
 
@@ -39,28 +53,22 @@
         <div class="nav-zone-center">
             <div class="search-bar">
                 <span class="material-symbols-outlined">search</span>
-                <input type="text" placeholder="Search bots...">
+                <input type="text" placeholder="Quick search...">
             </div>
         </div>
 
 
-        <!-- Zone 3: Utility & Account -->
+        <!-- Zone 3: Status & Profile -->
         <div class="nav-zone-right">
-            <div class="nav-actions">
-                <button id="navAnalytics" class="btn-utility" title="Analytics">
-                    <span class="material-symbols-outlined">analytics</span>
-                </button>
-                <button id="navSettings" class="btn-utility" title="Settings">
-                    <span class="material-symbols-outlined">settings</span>
-                </button>
-                <button id="btnThemeToggle" class="btn-utility">
-                    <span class="material-symbols-outlined" id="themeIcon">light_mode</span>
-                </button>
-                <div class="divider"></div>
-                <button id="btnLogout" class="btn-logout">
-                    <span class="material-symbols-outlined">logout</span>
-                    <span class="nav-label">Logout</span>
-                </button>
+            <div class="status-badge-active">
+                <span class="dot-success"></span>
+                ACTIVE
+            </div>
+            <button class="btn-icon-plain">
+                <span class="material-symbols-outlined">notifications</span>
+            </button>
+            <div class="avatar-circle-sm">
+                <img src="https://i.pravatar.cc/150?u=neural" alt="User">
             </div>
         </div>
     </nav>
@@ -70,53 +78,58 @@
 
         <!-- DASHBOARD VIEW -->
         <div id="dashboardView">
-            <!-- Legacy Header Removed -->
+            <div class="overview-header">
+                <h1>Neural Overview</h1>
+                <p>Real-time performance metrics and active AI connections.</p>
+            </div>
 
             <!-- METRICS -->
             <div class="metrics-grid">
-                <div class="neu-card">
-                    <div class="metric-label">Total Connections</div>
-                    <div id="metricConnections" class="metric-value">-</div>
-                    <div class="text-success" style="font-size: 0.9rem;">Live</div>
+                <div class="neu-card accent-blue">
+                    <div class="metric-label">TOTAL CONNECTIONS</div>
+                    <div id="metricConnections" class="metric-value">2</div>
+                    <div class="metric-sub-label success">Live</div>
                 </div>
-                <div class="neu-card">
-                    <div class="metric-label">Active Conversations</div>
-                    <div id="metricConversations" class="metric-value">-</div>
-                    <div class="text-success" style="font-size: 0.9rem;">Live</div>
+                <div class="neu-card accent-cyan">
+                    <div class="metric-label">ACTIVE CONVERSATIONS</div>
+                    <div id="metricConversations" class="metric-value">115</div>
+                    <div class="metric-sub-label success">Live</div>
                 </div>
-                <div class="neu-card">
-                    <div class="metric-label">Knowledge Sources</div>
-                    <div id="metricKnowledge" class="metric-value">-</div>
-                    <div class="text-secondary" style="font-size: 0.9rem;">Across all bots</div>
+                <div class="neu-card accent-purple">
+                    <div class="metric-label">KNOWLEDGE SOURCES</div>
+                    <div id="metricKnowledge" class="metric-value">39</div>
+                    <div class="metric-sub-label secondary">Across bots</div>
                 </div>
-                <div class="neu-card">
-                    <div class="metric-label">Platform Health</div>
-                    <div id="metricHealth" class="metric-value">-</div>
-                    <div id="metricHealthLabel" class="text-success" style="font-size: 0.9rem;">Stable</div>
+                <div class="neu-card accent-green">
+                    <div class="metric-label">PLATFORM HEALTH</div>
+                    <div id="metricHealth" class="metric-value">100%</div>
+                    <div class="metric-sub-label success">Stable</div>
                 </div>
-                <div class="neu-card">
-                    <div class="metric-label">Estimated API Cost</div>
-                    <div id="metricCost" class="metric-value">-</div>
-                    <div class="text-secondary" style="font-size: 0.9rem;">Current Month (est)</div>
+                <div class="neu-card accent-grey">
+                    <div class="metric-label">API COST (EST)</div>
+                    <div id="metricCost" class="metric-value">$0.00</div>
+                    <div class="metric-sub-label secondary">MTD</div>
                 </div>
-                <div class="neu-card">
-                    <div class="metric-label">Knowledge Gaps</div>
-                    <div id="metricGaps" class="metric-value">-</div>
-                    <div id="metricGapsLabel" class="text-success" style="font-size: 0.9rem;">0 Pending</div>
+                <div class="neu-card accent-gold">
+                    <div class="metric-label">KNOWLEDGE GAPS</div>
+                    <div id="metricGaps" class="metric-value">30</div>
+                    <div class="metric-sub-label warning">Pending</div>
                 </div>
             </div>
 
             <!-- CONNECTIONS -->
             <section>
-                <div class="header">
-                    <h2 style="font-size: 1.4rem;">All Connections</h2>
-                    <button id="btnNewConnection" class="btn-neu">
-                        <span class="material-symbols-outlined">add</span>
-                        New Connection
+                <div class="section-header">
+                    <div class="section-header-left">
+                        <span class="material-symbols-outlined icon-blue">hub</span>
+                        <h2>All Connections</h2>
+                    </div>
+                    <button id="btnNewConnection" class="btn-text-blue">
+                        Add Connection +
                     </button>
                 </div>
 
-                <div id="connectionsList" class="connections-grid">
+                <div id="connectionsList" class="connections-list-horizontal">
                     <!-- Javascript will populate this -->
                     <div class="loading">Loading connections...</div>
                 </div>
@@ -1493,6 +1506,21 @@
             </div>
         </div>
     </div>
+
+    <!-- FOOTER -->
+    <footer class="admin-footer">
+        <div class="footer-left">
+            © 2024 Neural. All rights reserved.
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Docs</a>
+            </div>
+        </div>
+        <button id="btnLogout" class="btn-logout-pill">
+            <span class="material-symbols-outlined">logout</span>
+            Logout
+        </button>
+    </footer>
 
     <!-- TOAST -->
     <div id="toast"

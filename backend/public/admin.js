@@ -110,71 +110,56 @@ async function loadConnections() {
 
         connections.forEach(conn => {
             const card = document.createElement('div');
-            // Use new class 'control-card' + 'neu-card'
-            card.className = 'neu-card control-card';
+            card.className = 'conn-card-horizontal';
 
-            const initial = conn.assistantName ? conn.assistantName[0].toUpperCase() : 'A';
-
-            // Status Logic
-            const isLaunched = conn.launchStatus === 'LAUNCHED';
             const health = conn.healthScore || 100;
-            let healthClass = 'health-good';
-            if (health < 80) healthClass = 'health-warn';
-            if (health < 50) healthClass = 'health-crit';
+            const isLaunched = conn.launchStatus === 'LAUNCHED';
 
-            const driftCount = conn.driftCount || 0;
-            const driftClass = driftCount > 0 ? 'drift-alert' : '';
-
-            // Actions Logic
-            let primaryAction = '';
-            if (!isLaunched) {
-                primaryAction = `<button class="btn-ctrl primary" onclick="resumeSetup('${conn.connectionId}')">
-                    <span class="material-symbols-outlined">play_arrow</span> Resume
-                </button>`;
-            } else {
-                primaryAction = `<button class="btn-ctrl" onclick="openMonitor('${conn.connectionId}')">
-                    <span class="material-symbols-outlined">monitoring</span> Monitor
-                </button>
-                <button class="btn-ctrl" onclick="editConnection('${conn.connectionId}')">
-                    <span class="material-symbols-outlined">tune</span> Edit
-                </button>`;
-            }
-
-            // Launch Badge
-            const launchBadge = isLaunched ? `<div class="launch-badge">LIVE</div>` : '';
+            // Random gradient for visual for now
+            const gradients = [
+                'linear-gradient(135deg, #1e3a8a, #3b82f6)',
+                'linear-gradient(135deg, #312e81, #10b981)',
+                'linear-gradient(135deg, #4c1d95, #8b5cf6)',
+                'linear-gradient(135deg, #1e293b, #64748b)'
+            ];
+            const randomBg = gradients[Math.floor(Math.random() * gradients.length)];
 
             card.innerHTML = `
-                ${launchBadge}
-                <div class="control-header">
-                    <div class="control-meta">
-                        <div class="avatar-circle">${initial}</div>
-                        <div>
-                            <h3>${conn.assistantName || 'Untitled Bot'}</h3>
-                            <a href="${conn.websiteUrl}" target="_blank">${conn.websiteName || 'No Website'}</a>
+                <div class="conn-card-visual" style="background: ${randomBg}">
+                    <span class="badge-portfolio">PORTFOLIO</span>
+                </div>
+                <div class="conn-card-info">
+                    <div class="conn-card-header">
+                        <h3>${conn.assistantName || 'Untitled Bot'}</h3>
+                        <div class="conn-card-actions">
+                            <button class="btn-icon-sm" onclick="editConnection('${conn.connectionId}')" title="Edit">
+                                <span class="material-symbols-outlined">edit</span>
+                            </button>
+                            <button class="btn-icon-sm danger" onclick="deleteConnection('${conn.connectionId}')" title="Delete">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
                         </div>
                     </div>
-                    <div class="health-badge ${healthClass}">Health: ${health}%</div>
-                </div>
-
-                <div class="control-stats">
-                    <div class="stat-item">
-                         <span class="stat-label">Coverage</span>
-                         <span class="stat-val">--%</span>
+                    <div class="conn-card-status">
+                        <span class="dot-success"></span>
+                        LIVE • ${health}% HEALTH
                     </div>
-                    <div class="stat-item">
-                         <span class="stat-label">Drifts</span>
-                         <span class="stat-val ${driftClass}">${driftCount}</span>
+                    <div class="conn-card-stats">
+                        <div class="stat-box">
+                            <label>COVERAGE</label>
+                            <span>-- %</span>
+                        </div>
+                        <div class="stat-box">
+                            <label>DRIFTS</label>
+                            <span>${conn.driftCount || 0}</span>
+                        </div>
+                        <div class="stat-box">
+                            <label>GATE</label>
+                            <span class="gate-status active">${conn.confidenceGateStatus || 'ACTIVE'}</span>
+                        </div>
                     </div>
-                    <div class="stat-item">
-                         <span class="stat-label">Gate</span>
-                         <span class="stat-val">${conn.confidenceGateStatus || 'ACTIVE'}</span>
-                    </div>
-                </div>
-
-                <div class="control-actions">
-                    ${primaryAction}
-                    <button class="btn-ctrl danger" onclick="deleteConnection('${conn.connectionId}')">
-                        <span class="material-symbols-outlined">delete</span>
+                    <button class="btn-monitor-perf" onclick="openMonitor('${conn.connectionId}')">
+                        Monitor Performance
                     </button>
                 </div>
             `;
