@@ -181,7 +181,6 @@ h3 {
     display: flex;
     align-items: center;
     gap: 12px;
-    height: 100%;
 }
 
 
@@ -191,7 +190,7 @@ h3 {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 18px;
+    padding: 8px 18px;
     border-radius: var(--radius-pill);
     color: var(--text-secondary);
     text-decoration: none;
@@ -224,12 +223,12 @@ h3 {
 .search-bar {
     background: rgba(0, 0, 0, 0.04);
     border-radius: var(--radius-pill);
-    padding: 10px 20px;
+    padding: 6px 16px;
     display: flex;
     align-items: center;
     gap: 12px;
     width: 100%;
-    max-width: 400px;
+    max-width: 350px;
     border: 1px solid transparent;
     transition: all 0.3s ease;
 }
@@ -258,8 +257,8 @@ h3 {
     border: none;
     color: var(--text-secondary);
     cursor: pointer;
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 12px;
     display: flex;
     align-items: center;
