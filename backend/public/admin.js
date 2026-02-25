@@ -283,6 +283,19 @@ function setupEventListeners() {
     const btnFinish = document.getElementById('btnFinish');
     if (btnFinish) btnFinish.addEventListener('click', closeWorkflow);
 
+    // Unified Navigation
+    const navDashboard = document.getElementById('navDashboard');
+    if (navDashboard) navDashboard.addEventListener('click', (e) => { e.preventDefault(); switchView('dashboardView'); });
+
+    const navConnections = document.getElementById('navConnections');
+    if (navConnections) navConnections.addEventListener('click', (e) => { e.preventDefault(); switchView('dashboardView'); });
+
+    const navAnalytics = document.getElementById('navAnalytics');
+    if (navAnalytics) navAnalytics.addEventListener('click', (e) => { e.preventDefault(); switchView('analyticsView'); });
+
+    const navSettings = document.getElementById('navSettings');
+    if (navSettings) navSettings.addEventListener('click', (e) => { e.preventDefault(); switchView('settingsView'); });
+
     // Logout
     const logoutBtn = document.getElementById('btnLogout');
     if (logoutBtn) {
@@ -337,13 +350,11 @@ function setupEventListeners() {
     // Close Modal
     document.getElementById('btnCloseWorkflow').addEventListener('click', closeWorkflow);
 
-    // Back Button
+    // Back Button (Inside Details)
     const btnBack = document.getElementById('btnBackToDash');
     if (btnBack) {
         btnBack.addEventListener('click', () => {
-            document.getElementById('detailsView').classList.add('hidden');
-            document.getElementById('dashboardView').classList.remove('hidden');
-            activeConnectionId = null;
+            switchView('dashboardView');
         });
     }
 }
@@ -389,13 +400,51 @@ function closeWorkflow() {
     loadConnections();
 }
 
+// --- NAVIGATION & VIEW SWITCHING ---
+function switchView(viewId) {
+    // 1. Hide all main views
+    const views = ['dashboardView', 'detailsView', 'analyticsView', 'settingsView'];
+    views.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+    });
+
+    // 2. Show target view
+    const target = document.getElementById(viewId);
+    if (target) {
+        target.classList.remove('hidden');
+    }
+
+    // 3. Update Nav Active States
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+
+    // Map viewId to nav item id
+    const navMap = {
+        'dashboardView': 'navDashboard',
+        'detailsView': 'navConnections', // Details are part of connections context
+        'analyticsView': 'navAnalytics',
+        'settingsView': 'navSettings'
+    };
+
+    const activeNavId = navMap[viewId];
+    if (activeNavId) {
+        const navItem = document.getElementById(activeNavId);
+        if (navItem) navItem.classList.add('active');
+    }
+
+    // Special handling for dashboard/connections context
+    if (viewId === 'dashboardView') {
+        activeConnectionId = null;
+        loadConnections(); // Refresh data when returning to dash
+    }
+}
+
 // --- EDIT CONNECTION (Tabs) ---
 async function editConnection(id) {
     activeConnectionId = id;
-
-    // Switch View
-    document.getElementById('dashboardView').classList.add('hidden');
-    document.getElementById('detailsView').classList.remove('hidden');
+    switchView('detailsView');
 
     // Reset Tabs
     const firstTab = document.querySelector('.tab-item[data-tab="tabTune"]');

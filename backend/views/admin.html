@@ -17,48 +17,51 @@
 
     <!-- TOP NAVBAR -->
     <nav class="navbar-top">
-        <div class="brand">
-            <span class="material-symbols-outlined" style="color: var(--primary);">neurology</span>
-            <span class="brand-name">Neural Bot</span>
+        <!-- Zone 1: Brand & Primary Nav -->
+        <div class="nav-zone-left">
+            <div class="brand">
+                <span class="material-symbols-outlined" style="color: var(--primary);">neurology</span>
+                <span class="brand-name">Neural Bot</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#" id="navDashboard" class="nav-item active">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="#" id="navConnections" class="nav-item">
+                    <span class="material-symbols-outlined">hub</span>
+                    <span class="nav-label">Connections</span>
+                </a>
+            </div>
         </div>
 
-        <div class="nav-menu">
-            <a href="#" id="navDashboard" class="nav-item active">
-                <span class="material-symbols-outlined">dashboard</span>
-                <span class="nav-label">Dashboard</span>
-            </a>
-            <a href="#" id="navConnections" class="nav-item">
-                <span class="material-symbols-outlined">hub</span>
-                <span class="nav-label">Connections</span>
-                <span class="status-badge success">12</span>
-            </a>
-            <a href="#" id="navAnalytics" class="nav-item">
-                <span class="material-symbols-outlined">analytics</span>
-                <span class="nav-label">Analytics</span>
-            </a>
-            <a href="#" id="navSettings" class="nav-item">
-                <span class="material-symbols-outlined">settings</span>
-                <span class="nav-label">Settings</span>
-            </a>
-        </div>
-
-
-        <div class="nav-actions">
-            <div class="search-bar" style="max-width: 200px;">
+        <!-- Zone 2: Centered Search -->
+        <div class="nav-zone-center">
+            <div class="search-bar">
                 <span class="material-symbols-outlined">search</span>
-                <input type="text" placeholder="Search...">
+                <input type="text" placeholder="Search bots...">
             </div>
-            <div class="system-status">
-                <span class="status-indicator"></span>
-                <span class="status-text">Active</span>
+        </div>
+
+
+        <!-- Zone 3: Utility & Account -->
+        <div class="nav-zone-right">
+            <div class="nav-actions">
+                <button id="navAnalytics" class="btn-utility" title="Analytics">
+                    <span class="material-symbols-outlined">analytics</span>
+                </button>
+                <button id="navSettings" class="btn-utility" title="Settings">
+                    <span class="material-symbols-outlined">settings</span>
+                </button>
+                <button id="btnThemeToggle" class="btn-utility">
+                    <span class="material-symbols-outlined" id="themeIcon">light_mode</span>
+                </button>
+                <div class="divider"></div>
+                <button id="btnLogout" class="btn-logout">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span class="nav-label">Logout</span>
+                </button>
             </div>
-            <button id="btnThemeToggle" class="btn-theme-nav">
-                <span class="material-symbols-outlined" id="themeIcon">light_mode</span>
-            </button>
-            <a href="#" id="btnLogout" class="nav-item logout">
-                <span class="material-symbols-outlined">logout</span>
-                <span class="nav-label">Logout</span>
-            </a>
         </div>
     </nav>
 
