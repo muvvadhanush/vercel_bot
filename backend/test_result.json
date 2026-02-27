@@ -1,0 +1,18 @@
+{
+  "status": "PASSED",
+  "logs": [
+    "\n🔒 Starting Multi-Tenant Isolation Test...\n",
+    "   🔸 Connection A: iso-test-A-418feff1",
+    "   🔸 Connection B: iso-test-B-a9fb3503",
+    "   🔸 Secret Knowledge: \"XYZZY_0e46fff6\"",
+    "\n1. 🛠️  Setting up test connections...",
+    "2. 📥 Inserting exclusive knowledge into Connection A...",
+    "3. ⚔️  Testing Cross-Tenant Leakage (Connection B querying A's secret)...",
+    "   ✅ PASS: Connection B returned 0 results for Connection A's data.",
+    "\n4. 🔍 Verifying Connection A access...",
+    "   ✅ PASS: Connection A successfully retrieved its own data.",
+    "\n5. 🧹 Cleaning up test data...",
+    "\n🟢 TEST PASSED: Multi-Tenant Isolation Verified.\n"
+  ],
+  "error": null
+}

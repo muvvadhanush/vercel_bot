@@ -1,8 +1,8 @@
 const logger = require('../utils/logger');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 
 const errorHandler = (err, req, res, next) => {
-    const requestId = req.requestId || req.headers['x-request-id'] || uuidv4();
+    const requestId = req.requestId || req.headers['x-request-id'] || crypto.randomUUID();
 
     logger.error(`Error: ${err.message}`, {
         requestId,

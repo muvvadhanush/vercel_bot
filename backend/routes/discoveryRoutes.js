@@ -5,14 +5,14 @@ const { runDiscovery } = require('../services/discovery/discoveryService');
 const Connection = require('../models/Connection');
 const ConnectionCrawlSession = require('../models/ConnectionCrawlSession');
 const ConnectionDiscovery = require('../models/ConnectionDiscovery');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 
 // 1. Trigger Discovery
 // POST /api/v1/connections/:id/discovery
 router.post('/:id/discovery', async (req, res) => {
     console.log(`[ROUTE] POST /api/v1/connections/${req.params.id}/discovery - HIT`);
     try {
-        const requestId = req.requestId || uuidv4();
+        const requestId = req.requestId || crypto.randomUUID();
         const connection = await Connection.findOne({
             where: { connectionId: req.params.id }
         });
