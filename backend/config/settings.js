@@ -6,10 +6,15 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 const validEnvironments = ['development', 'staging', 'production'];
 const env = process.env.NODE_ENV;
 
-// 1. Validate (but NEVER process.exit — kills Vercel functions)
+// 1. Fail Fast on Invalid Environment
 if (!validEnvironments.includes(env)) {
-    console.error(`⚠️ WARNING: Invalid NODE_ENV "${env}". Defaulting to "production".`);
-    process.env.NODE_ENV = 'production';
+    console.error(`
+    🛑 CRITICAL ERROR: Invalid NODE_ENV "${env}"
+    Allowed values: ${validEnvironments.join(', ')}
+    
+    Fix: set NODE_ENV=development|staging|production
+  `);
+    process.exit(1);
 }
 
 console.log(`🚦 Environment: ${env.toUpperCase()}`);
@@ -76,7 +81,6 @@ const settings = {
             'http://localhost:5173',
             'http://127.0.0.1:3000',
             'http://127.0.0.1:5000',
-            'http://127.0.0.1:5001',
             'http://127.0.0.1:5001',
             'http://127.0.0.1:5173',
             'http://98.130.121.189:5000'

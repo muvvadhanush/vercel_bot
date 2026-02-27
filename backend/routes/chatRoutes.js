@@ -26,7 +26,6 @@ router.post(
     limiters.widgetChat,
     chatController.streamMessage
 );
-
 // ===============================
 // 2️⃣ Welcome Endpoint (Widget)
 // ===============================

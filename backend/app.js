@@ -7,10 +7,12 @@ try {
 // ===== Global Process Safety =====
 process.on("uncaughtException", (err) => {
   console.error("🔥 UNCAUGHT EXCEPTION:", err);
+  process.exit(1);
 });
 
 process.on("unhandledRejection", (reason) => {
   console.error("🔥 UNHANDLED REJECTION:", reason);
+  process.exit(1);
 });
 
 // ===== Core Imports =====
@@ -19,7 +21,7 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const path = require("path");
-const crypto = require("crypto");
+const { v4: uuidv4 } = require("uuid");
 
 const settings = require("./config/settings");
 const logger = require("./utils/logger");
@@ -28,25 +30,6 @@ require("./models"); // Initialize Associations
 
 // ===== Initialize App =====
 const app = express();
-
-// ===== Lazy DB Connect (Serverless Safe) =====
-let dbConnected = false;
-app.use(async (req, res, next) => {
-  try {
-    if (!dbConnected) {
-      await sequelize.authenticate();
-      dbConnected = true;
-      console.log("✅ DB Connected (Lazy)");
-    }
-    next();
-  } catch (err) {
-    console.error("❌ DB Connection Failed:", err.message);
-    res.status(503).json({
-      error: "SERVICE_UNAVAILABLE",
-      message: "Database connection failed. Please try again.",
-    });
-  }
-});
 
 // ===== Request ID + Logging =====
 const requestLogger = require("./middleware/requestLogger");
@@ -105,10 +88,10 @@ app.use(helmet({
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],
-      upgradeInsecureRequests: null
-    }
+      upgradeInsecureRequests: [],
+    },
   },
-  crossOriginResourcePolicy: { policy: "cross-origin" },
+  crossOriginResourcePolicy: { policy: "cross-origin" }, // Allow widget to be loaded by other sites
   crossOriginOpenerPolicy: false,
   originAgentCluster: false
 }));
@@ -145,18 +128,18 @@ app.get("/health", rateLimiter.systemHealth || ((req, res, next) => next()), (re
 const v1Router = require("./routes/v1");
 app.use("/api/v1", v1Router);
 
-// ===== Admin Panel Routes =====
-app.get("/admin", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "admin.html"));
-});
+// ===== Admin Panel Routes (React App) =====
+app.use(express.static(path.join(__dirname, "admin-ui", "dist")));
 
-app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "login.html"));
-});
+// Catch-all route to let React Router handle '/admin', '/login', etc.
+app.get("/login", (req, res) => res.sendFile(path.join(__dirname, "admin-ui", "dist", "index.html")));
+app.get("/admin", (req, res) => res.sendFile(path.join(__dirname, "admin-ui", "dist", "index.html")));
+// Uses regex instead of wildcard for nested routes in static React bundle
+app.get(/^\/admin\/.*/, (req, res) => res.sendFile(path.join(__dirname, "admin-ui", "dist", "index.html")));
 
 // ===== 404 Handler =====
 app.use((req, res) => {
-  const requestId = req.requestId || crypto.randomUUID();
+  const requestId = req.requestId || uuidv4();
   logger.warn(`404 Not Found: ${req.method} ${req.originalUrl}`, { requestId });
 
   res.status(404).json({
@@ -171,23 +154,19 @@ const errorHandler = require("./middleware/errorHandler");
 app.use(errorHandler);
 
 // ===== Database & Server Startup =====
-// On Vercel: Sequelize connects lazily on first query. No top-level auth needed.
-// Locally:  We authenticate and start the server.
-if (require.main === module) {
-  const PORT = settings.port;
-  sequelize.authenticate()
-    .then(() => {
-      console.log("✅ Database connected successfully.");
-      console.log("🛡️ Schema Lock Active: sequelize.sync() DISABLED.");
-      app.listen(PORT, () => {
-        console.log(`🚀 Server running on port ${PORT} [${settings.env}]`);
-        console.log(`📡 Health: http://localhost:${PORT}/health`);
-      });
-    })
-    .catch((err) => {
-      console.error("❌ Database connection failed:", err);
-    });
-}
+const PORT = settings.port;
 
-// ===== Export for Vercel Serverless =====
-module.exports = app;
+sequelize.authenticate()
+  .then(() => {
+    console.log("✅ Database connected successfully.");
+    console.log("🛡️ Schema Lock Active: sequelize.sync() DISABLED.");
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT} [${settings.env}]`);
+      console.log(`📡 Health: http://localhost:${PORT}/health`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Database connection failed:", err);
+    process.exit(1);
+  });

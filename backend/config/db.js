@@ -1,39 +1,30 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
-// ===== Serverless-Safe Sequelize Config =====
-// Uses DB_URL (Supabase connection string) with minimal pooling
-// Compatible with PgBouncer transaction mode on Vercel cold starts
-
+// Always use environment variables for database configuration
+// This ensures Docker containers use the correct database regardless of NODE_ENV
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
+  process.env.DB_NAME || 'postgres',
+  process.env.DB_USER || 'postgres',
   process.env.DB_PASSWORD,
   {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT || 6543,
-    dialect: "postgres",
-    logging: false,
-
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 5432,
+    dialect: 'postgres',
+    logging: process.env.NODE_ENV === 'production' ? false : console.log,
     dialectOptions: {
-      ssl: {
+      ssl: process.env.DB_SSL === 'false' ? false : {
         require: true,
-        rejectUnauthorized: false,
-      },
-      // Force IPv4 — Render doesn't support IPv6
-      family: 4,
+        rejectUnauthorized: false
+      }
     },
-
-    // Serverless-safe pool: 1 connection per invocation, no idle retention
     pool: {
-      max: 1,
+      max: 5,
       min: 0,
-      idle: 0,
-      acquire: 10000,
-    },
+      acquire: 30000,
+      idle: 10000
+    }
   }
 );
 
-// Global connection reuse — prevents duplicate instances across hot reloads
-global._sequelize = global._sequelize || sequelize;
-
-module.exports = global._sequelize;
+module.exports = sequelize;

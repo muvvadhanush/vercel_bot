@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid');
 const { extractFromDiscovery } = require('../services/extraction/extractionService');
 const { parseFile } = require('../services/extraction/uploadService');
 const { hashContent } = require('../services/extraction/hashService');

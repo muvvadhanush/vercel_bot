@@ -5,7 +5,7 @@ const path = require('path');
 const sequelize = require('../config/db');
 const Connection = require('../models/Connection');
 const ChatSession = require('../models/ChatSession');
-const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid');
 // const request = require('supertest'); // Removed as not used and not installed
 // If not, we can simlulate by calling chatController directly or mocking req/res.
 // Let's use direct controller call or a simple fetch if server running?
@@ -36,9 +36,9 @@ const mockResponse = () => {
 async function runTest() {
     console.log('\n🔒 Starting Session Isolation Test...\n');
 
-    const connAId = 'sess-test-A-' + crypto.randomUUID().substring(0, 8);
-    const connBId = 'sess-test-B-' + crypto.randomUUID().substring(0, 8);
-    const sessionId = 'session-' + crypto.randomUUID();
+    const connAId = 'sess-test-A-' + uuidv4().substring(0, 8);
+    const connBId = 'sess-test-B-' + uuidv4().substring(0, 8);
+    const sessionId = 'session-' + uuidv4();
 
     let failure = false;
 

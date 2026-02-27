@@ -15,6 +15,14 @@ const OpenAI = require('openai');
 const AI_PROVIDER = process.env.AI_PROVIDER || 'openai';
 
 function getAIConfig() {
+    if (AI_PROVIDER === 'anthropic') {
+        return {
+            baseURL: process.env.ANTHROPIC_BASE_URL || 'https://api.anthropic.com',
+            apiKey: process.env.ANTHROPIC_API_KEY,
+            model: 'claude-3-5-sonnet-latest'
+        };
+    }
+
     if (AI_PROVIDER === 'groq') {
         return {
             baseURL: 'https://api.groq.com/openai/v1',
@@ -39,7 +47,7 @@ const client = new OpenAI({
 
 // Dedicated client for embeddings (Groq doesn't support them yet)
 const embeddingClient = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY || 'dummy_key', // Always use OpenAI for embeddings
+    apiKey: process.env.OPENAI_API_KEY || 'dummy_key', // Always use OpenAI for embeddings (or dummy if not provided to prevent crash on boot)
     baseURL: 'https://api.openai.com/v1'
 });
 

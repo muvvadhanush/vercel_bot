@@ -379,7 +379,7 @@ const streamMessage = async (req, res) => {
       if (scores.length) aggConfidence = scores.reduce((a, b) => a + b, 0) / scores.length;
     }
 
-    // Check Confidence Gating (Optional: if we want to block stream on low confidence, 
+    // Check Confidence Gating (Optional: if we want to block stream on low confidence,
     // we have to buffer first chunk. For now, we stream and flag metadata)
     try {
       const policy = await ConfidencePolicy.findOne({ where: { connectionId } });

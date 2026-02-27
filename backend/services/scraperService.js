@@ -3,7 +3,6 @@
  * Handles safe fetching and cleaning of content for Knowledge Ingestion.
  */
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
 const cheerio = require('cheerio');
 const { pipeline } = require('stream/promises');
@@ -24,7 +23,7 @@ class ScraperService {
     async fetchBranding(rawUrl, connectionId) {
         if (!rawUrl || !connectionId) throw new Error("URL and ConnectionID required");
 
-        const targetDir = path.join(os.tmpdir(), 'branding', connectionId);
+        const targetDir = path.join(__dirname, '..', 'public', 'branding', connectionId);
         if (!fs.existsSync(targetDir)) {
             fs.mkdirSync(targetDir, { recursive: true });
         }

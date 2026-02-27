@@ -210,7 +210,6 @@ router.post("/:connectionId/auto-extract",
           details: "The server cannot access 'localhost'. Please use a public URL or ngrok to extract knowledge base from your local site."
         });
       }
-
       // 1. Scrape Metadata & Text
       const result = await scraperService.scrapeWebsite(url);
       if (!result.success) {
