@@ -24,35 +24,47 @@ export default function AdminDashboard() {
     // It's wrapped in dangerouslySetInnerHTML to guarantee 100% exact DOM replication
     // so `admin.js` can attach to its expected `getElementById` targets flawlessly.
     const rawHtml = `
-      <!-- SIDEBAR -->
-    <nav class="sidebar">
-        <div class="brand">
-            <span class="material-symbols-outlined" style="color: var(--primary);">neurology</span>
-            Neural Bot
+    <!-- TOP NAVIGATION -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="brand">
+                <div class="brand-icon">
+                    <span class="material-symbols-outlined">neurology</span>
+                </div>
+                <span class="brand-text">Platform</span>
+            </div>
+            <div class="search-container">
+                <span class="material-symbols-outlined search-icon">search</span>
+                <input type="text" id="inpSearchConnections" placeholder="Search connections..." class="search-input">
+            </div>
         </div>
 
-        <div class="nav-menu">
-            <a href="#" id="navDashboard" class="nav-item active">
-                <span class="material-symbols-outlined">dashboard</span>
-                Dashboard
-            </a>
-            <a href="#" id="navConnections" class="nav-item">
-                <span class="material-symbols-outlined">hub</span>
-                Connections
-                <span class="status-badge success" style="margin-left: auto; font-size: 0.7rem;">12</span>
-            </a>
-            <a href="#" id="navAnalytics" class="nav-item">
-                <span class="material-symbols-outlined">analytics</span>
-                Analytics
-            </a>
-            <a href="#" id="navSettings" class="nav-item">
-                <span class="material-symbols-outlined">settings</span>
-                Settings
-            </a>
-            <a href="#" id="btnLogout" class="nav-item" style="margin-top: auto; color: var(--error);">
-                <span class="material-symbols-outlined">logout</span>
-                Logout
-            </a>
+        <div class="nav-center">
+            <div class="nav-links">
+                <a href="#" id="navDashboard" class="nav-link active">Dashboard</a>
+                <a href="#" id="navConnections" class="nav-link">Connections</a>
+                <a href="#" id="navAnalytics" class="nav-link">Analytics</a>
+                <a href="#" id="navSettings" class="nav-link">Settings</a>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <button id="btnThemeToggle" class="nav-action-btn">
+                <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
+            </button>
+            <button class="nav-action-btn">
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="notification-dot"></span>
+            </button>
+            <div class="user-profile-nav">
+                <div class="user-avatar-container">
+                    <img src="https://i.pravatar.cc/150?u=alex" alt="User Avatar" class="user-avatar-img">
+                </div>
+                <div class="user-info-text">
+                    <div class="user-name">Alex Rivera</div>
+                    <div class="user-role">Admin View</div>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -61,28 +73,12 @@ export default function AdminDashboard() {
 
         <!-- DASHBOARD VIEW -->
         <div id="dashboardView">
-            <!-- HEADER -->
-            <header class="header">
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <button id="btnMobileMenu" class="btn-icon mobile-only">
-                        <span class="material-symbols-outlined">menu</span>
-                    </button>
-                    <div class="page-title">
-                        <h1>Dashboard Overview</h1>
-                        <p>Manage your AI connections and performance.</p>
-                    </div>
+            <div class="view-header">
+                <div>
+                    <h1 class="view-title">Dashboard Overview</h1>
+                    <p class="view-subtitle">Manage your AI connections and performance.</p>
                 </div>
-
-                <div class="user-profile">
-                    <button id="btnThemeToggle" class="btn-icon">
-                        <span class="material-symbols-outlined" id="themeIcon">light_mode</span>
-                    </button>
-                    <button class="btn-icon">
-                        <span class="material-symbols-outlined">notifications</span>
-                    </button>
-                    <div class="avatar">T</div>
-                </div>
-            </header>
+            </div>
 
             <!-- METRICS -->
             <div class="metrics-grid">
