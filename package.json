@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node backend/app.js",
     "start:prod": "pm2 start backend/ecosystem.config.js --env production",
+    "build": "npm install && cd backend/admin-ui && npm install && npm run build",
     "dev": "nodemon backend/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
